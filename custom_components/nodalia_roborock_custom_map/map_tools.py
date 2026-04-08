@@ -16,6 +16,9 @@ _ROOM_PIXEL_MASK = 0x07
 _ROOM_PIXEL_VALUE = 0x07
 _ROOM_NUMBER_SHIFT = 3
 _VACUUM_MAP_PIXEL_SIZE = 50
+_MIN_COMPONENT_AREA = 20_000
+_MIN_COMPONENT_RATIO = 0.03
+_MAX_POLYGONS_PER_ROOM = 6
 
 type GridPoint = tuple[int, int]
 type Edge = tuple[GridPoint, GridPoint]
@@ -105,8 +108,7 @@ def extract_room_outlines(image_block: RawImageBlock | None) -> dict[int, list[P
                 polygons.append(polygon)
 
         if polygons:
-            polygons.sort(key=lambda polygon: abs(_polygon_area(polygon)), reverse=True)
-            outlines[room_id] = polygons
+            outlines[room_id] = _filter_room_polygons(polygons)
 
     return outlines
 
@@ -138,6 +140,24 @@ def polygon_center(polygons: list[Polygon]) -> VacuumPoint | None:
         "x": round(sum(point["x"] for point in largest) / len(largest)),
         "y": round(sum(point["y"] for point in largest) / len(largest)),
     }
+
+
+def _filter_room_polygons(polygons: list[Polygon]) -> list[Polygon]:
+    """Keep only meaningful room components and drop tiny map-noise islands."""
+    ranked = sorted(polygons, key=lambda polygon: _polygon_abs_area(polygon), reverse=True)
+    if not ranked:
+        return []
+
+    largest_area = _polygon_abs_area(ranked[0])
+    minimum_area = max(_MIN_COMPONENT_AREA, largest_area * _MIN_COMPONENT_RATIO)
+
+    filtered = [ranked[0]]
+    filtered.extend(
+        polygon
+        for polygon in ranked[1:]
+        if _polygon_abs_area(polygon) >= minimum_area
+    )
+    return filtered[:_MAX_POLYGONS_PER_ROOM]
 
 
 def _decompress_map(raw_map: bytes) -> bytes | None:
@@ -296,6 +316,10 @@ def _polygon_area(polygon: list[dict[str, Any]]) -> float:
         nxt = polygon[(index + 1) % len(polygon)]
         area += point["x"] * nxt["y"] - nxt["x"] * point["y"]
     return area / 2.0
+
+
+def _polygon_abs_area(polygon: list[dict[str, Any]]) -> float:
+    return abs(_polygon_area(polygon))
 
 
 def _polygon_centroid(polygon: Polygon) -> VacuumPoint | None:

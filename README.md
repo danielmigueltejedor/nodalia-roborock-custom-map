@@ -11,12 +11,6 @@ This fork also works well with `nodalia-advance-vacuum-card` and publishes riche
 - Real room polygons extracted from the Roborock map pixels via `rooms[*].outlines`
 - Rectangle fallbacks for cards that only understand simple room bounds
 
-If you would like to support me, you can do so here:
-
-[![BuyMeCoffee][buymecoffeebadge]][buymecoffee]
-
-[![PaypalMe][paypalmebadge]][paypalme]
-
 ### Setup
 
 1. Install the [Roborock Core Integration](https://my.home-assistant.io/redirect/config_flow_start?domain=roborock) and set it up
@@ -47,12 +41,8 @@ calibration_source:
 ### Installation
 
 ### Installing via HACS
-[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Lash-L&repository=RoborockCustomMap&category=integration)
-
-or
-
 1. Go to HACS->Integrations
-1. Add this repo(https://github.com/Lash-L/RoborockCustomMap) into your HACS custom repositories
+1. Add this repository as a custom repository in HACS
 1. Search for Nodalia Roborock Custom Map and Download it
 1. Restart your HomeAssistant
 1. Go to Settings->Devices & Services
@@ -61,11 +51,3 @@ or
 ### Alternative/optional
 
 Once you set up this integration, you can generate a static config in the lovelace card, and theoretically, you should be able to use that code with your Roborock CORE integration. However, it wont stay up to date if the map calibrations change significantly, or rooms change. So I'd only do this when I was sure everything was good!
-
-
-
-[buymecoffee]: https://www.buymeacoffee.com/LashL
-[buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
-[paypalme]: https://paypal.me/LLashley304
-[paypalmebadge]: https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg
-[hacsbutton]: https://my.home-assistant.io/redirect/hacs_repository/?owner=Lash-L&repository=tempofit&category=integration
