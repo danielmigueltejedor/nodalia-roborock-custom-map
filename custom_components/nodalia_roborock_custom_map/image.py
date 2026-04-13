@@ -249,8 +249,6 @@ class RoborockMap(RoborockCoordinatedEntityV1, ImageEntity):
                 "pos_x": room.pos_x if room.pos_x is not None else center["x"] if center else None,
                 "pos_y": room.pos_y if room.pos_y is not None else center["y"] if center else None,
                 "outlines": outlines,
-                "polygons": outlines,
-                "rectangles": rectangles,
             }
 
         return room_payload
