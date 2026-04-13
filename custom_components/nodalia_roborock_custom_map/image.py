@@ -11,7 +11,7 @@ from homeassistant.components.image import ImageEntity
 from homeassistant.components.roborock.coordinator import RoborockDataUpdateCoordinator
 from homeassistant.components.roborock.entity import RoborockCoordinatedEntityV1
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EntityCategory
+from homeassistant.const import EntityCategory, MATCH_ALL
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
@@ -65,6 +65,7 @@ class RoborockMap(RoborockCoordinatedEntityV1, ImageEntity):
     """A class to let you visualize the map."""
 
     _attr_has_entity_name = True
+    _unrecorded_attributes = frozenset({MATCH_ALL})
     image_last_updated: datetime
     _attr_name: str
 
