@@ -1,23 +1,42 @@
-# Nodalia Roborock Custom Map
+# 🗺️ Nodalia Roborock Custom Map
 
-you MUST be on 2025.4b or later
+![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2025.1%2B-41BDF5?logo=home-assistant)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Status](https://img.shields.io/badge/status-stable-success.svg)
+![GitHub](https://img.shields.io/badge/hosted%20on-GitHub-black?logo=github)
 
-This allows you to use the core Roborock integration with the [Xiaomi Map Card](https://github.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card)
+Integración personalizada para Home Assistant que permite usar la integración principal de Roborock con la [Xiaomi Map Card](https://github.com/PiotrMachowski/lovelace-xiaomi-vacuum-map-card).  
+Esta versión fork funciona perfectamente con `nodalia-advance-vacuum-card` y publica metadatos de mapa más ricos.
 
-This fork also works well with `nodalia-advance-vacuum-card` and publishes richer map metadata:
+> 🟡 Proyecto no afiliado a Home Assistant ni a Roborock.  
+> Uso personal y educativo.
 
-- More frequent live map refresh while the robot is moving
-- `vacuum_position`, `vacuum_room`, `vacuum_room_name` and `map_dimensions`
-- Real room polygons extracted from the Roborock map pixels via `rooms[*].outlines`
-- Rectangle fallbacks for cards that only understand simple room bounds
+---
 
-### Setup
+## ✨ Características
 
-1. Install the [Roborock Core Integration](https://my.home-assistant.io/redirect/config_flow_start?domain=roborock) and set it up
-2. It is recommended that you first disable the Image entities within the core integration. Open each image entity, hit the gear icon, then trigger the toggle by enabled.
-3. Install this integration(See the installing via HACS section below)
-4. This integration works by piggybacking off of the Core integration, so the Core integration will do all the data updating to help prevent rate-limits. But that means that the core integration must be setup and loaded first. If you run into any issues, make sure the Roborock integration is loaded first, and then reload this one.
-5. Setup the map card like normal! An example configuration would look like
+- Actualización de mapa en vivo más frecuente mientras el robot se mueve
+- Metadatos adicionales: `vacuum_position`, `vacuum_room`, `vacuum_room_name` y `map_dimensions`
+- Polígonos reales de habitaciones extraídos de los píxeles del mapa de Roborock vía `rooms[*].outlines`
+- Retrocesos rectangulares para tarjetas que solo entienden límites simples de habitaciones
+
+---
+
+## 🧩 Instalación
+
+### 🔹 Opción 1 — HACS (Recomendada)
+
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=danielmigueltejedor&repository=nodalia-roborock-custom-map&category=Integration)
+
+---
+
+## ⚙️ Configuración
+
+1. Instala la [Integración Principal de Roborock](https://my.home-assistant.io/redirect/config_flow_start?domain=roborock) y configúrala
+2. Se recomienda desactivar primero las entidades de Imagen en la integración principal. Abre cada entidad de imagen, haz clic en el icono de engranaje y desactiva el toggle.
+3. Instala esta integración (ver sección de instalación vía HACS arriba)
+4. Esta integración funciona aprovechando la integración principal, por lo que la integración principal debe estar configurada y cargada primero. Si encuentras problemas, asegúrate de que la integración de Roborock se cargue primero y luego recarga esta.
+5. Configura la tarjeta de mapa como de costumbre. Un ejemplo de configuración sería:
 ```yaml
 type: custom:xiaomi-vacuum-map-card
 vacuum_platform: Roborock
@@ -27,7 +46,7 @@ map_source:
 calibration_source:
   camera: true
 ```
-For `nodalia-advance-vacuum-card`, an example configuration would look like:
+Para `nodalia-advance-vacuum-card`, un ejemplo de configuración sería:
 ```yaml
 type: custom:nodalia-advance-vacuum-card
 entity: vacuum.s7
@@ -36,18 +55,32 @@ map_source:
 calibration_source:
   camera: true
 ```
-6. You can hit Edit on the card and then Generate Room Configs to allow for cleaning of rooms. It might generate extra keys, so check the yaml and make sure there are no extra 'predefined_sections'
+6. Puedes hacer clic en Editar en la tarjeta y luego Generar Configs de Habitaciones para permitir la limpieza de habitaciones. Puede generar claves extra, así que revisa el YAML y asegúrate de que no haya 'predefined_sections' extra.
 
-### Installation
+### Alternativa opcional
 
-### Installing via HACS
-1. Go to HACS->Integrations
-1. Add this repository as a custom repository in HACS
-1. Search for Nodalia Roborock Custom Map and Download it
-1. Restart your HomeAssistant
-1. Go to Settings->Devices & Services
-1. Add the Nodalia Roborock Custom Map integration
+Una vez configurada esta integración, puedes generar una configuración estática en la tarjeta de Lovelace, y teóricamente podrías usar ese código con tu integración de Roborock CORE. Sin embargo, no se mantendrá actualizada si las calibraciones del mapa cambian significativamente o las habitaciones cambian. Así que solo haz esto cuando estés seguro de que todo está bien.
 
-### Alternative/optional
+---
 
-Once you set up this integration, you can generate a static config in the lovelace card, and theoretically, you should be able to use that code with your Roborock CORE integration. However, it wont stay up to date if the map calibrations change significantly, or rooms change. So I'd only do this when I was sure everything was good!
+## 🧠 Detalles técnicos
+
+- Debes estar en Home Assistant 2025.4b o superior
+- La integración se basa en la integración principal de Roborock para evitar límites de tasa
+- Metadatos enriquecidos para compatibilidad con tarjetas avanzadas de mapas
+
+---
+
+## 🧑‍💻 Autor
+
+- **[@danielmigueltejedor](https://github.com/danielmigueltejedor)**  
+- Repositorio: https://github.com/danielmigueltejedor/nodalia-roborock-custom-map  
+- Licencia: MIT
+
+---
+
+## 💰 Donaciones
+
+Si te gusta este proyecto y quieres apoyar su desarrollo, considera hacer una donación:
+
+[![PayPal](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://paypal.me/DanielMiguelTejedor)
