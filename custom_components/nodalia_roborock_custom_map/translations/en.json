@@ -2,6 +2,12 @@
   "config": {
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_service%]"
+    },
+    "step": {
+      "user": {
+        "title": "Set up Nodalia Roborock Custom Map",
+        "description": "Create the custom map integration entry."
+      }
     }
   }
 }
