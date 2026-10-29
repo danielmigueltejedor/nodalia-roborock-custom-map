@@ -1,0 +1,39 @@
+name: Deterministic Quality Gates
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  quality:
+    name: quality
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Patch hygiene
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            git diff --check "${{ github.event.pull_request.base.sha }}" HEAD
+          else
+            git show --format= --check HEAD
+          fi
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile integration source
+        run: python -m compileall -q custom_components
+      - name: Validate integration metadata
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          for path in [Path("hacs.json"), *Path("custom_components").glob("*/manifest.json")]:
+              json.loads(path.read_text(encoding="utf-8"))
+              print("Valid:", path)
+          PY
