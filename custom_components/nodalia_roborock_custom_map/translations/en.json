@@ -2,6 +2,12 @@
   "config": {
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_service%]"
+    },
+    "step": {
+      "user": {
+        "title": "Configure Nodalia Roborock Custom Map",
+        "description": "Connect the integration to the Home Assistant Roborock map data."
+      }
     }
   }
 }
